@@ -2,6 +2,7 @@ import express from 'express';
 import Post from '../models/postModel';
 import mongoose, { mongo } from 'mongoose';
 import auth, { RequestWithUser } from '../auth';
+import {uploadItemImage} from '../multer';
 
 const postsRouter = express.Router();
 
@@ -14,18 +15,19 @@ postsRouter.get('/', async (_req, res, next) => {
     }
 });
 
-postsRouter.post('/', auth, async (req: RequestWithUser, res, next) => {
+postsRouter.post('/', auth, uploadItemImage.single('image'), async (req: RequestWithUser, res, next) => {
     try {
         const postData = {
             user: req.user?._id,
             title: req.body.title,
             description: req.body.description,
-            image: req.body.image,
+            image: req.file ? req.file.filename : null,
         };
 
         const post = new Post(postData);
 
         await post.save();
+
         return res.send(post);
     } catch (e) {
         if (e instanceof mongoose.Error.ValidationError) {
