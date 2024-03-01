@@ -40,3 +40,16 @@ export const createPost = createAsyncThunk<void, PostMutation, {state: RootState
         }
     }
 );
+
+export const fetchPostById = createAsyncThunk<Post, string, { state: RootState }>(
+    'posts/fetchById',
+    async (postId, { getState }) => {
+        try {
+            const response = await axiosApi.get<Post>(`/posts/${postId}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching post by id:', error);
+            throw error;
+        }
+    }
+);

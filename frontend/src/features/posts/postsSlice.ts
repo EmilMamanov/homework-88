@@ -1,7 +1,7 @@
 import {Post} from '../../types';
 import {createSlice} from '@reduxjs/toolkit';
 import {RootState} from '../../app/store';
-import { createPost, fetchPosts } from './postsThunk.ts';
+import { createPost, fetchPosts, fetchPostById } from './postsThunk.ts';
 
 interface PostsState {
     posts: Post[];
@@ -35,6 +35,13 @@ export const postsSlice = createSlice({
         });
         builder.addCase(createPost.rejected, (state) => {
             state.createLoading = false;
+        });
+        builder.addCase(fetchPostById.pending, (state) => {
+            state.fetchLoading = true;
+        });
+        builder.addCase(fetchPostById.fulfilled, (state, { payload: post }) => {
+            state.fetchLoading = false;
+            state.posts = [post]; // Обновляем массив постов, чтобы содержать только один пост
         });
     },
 });

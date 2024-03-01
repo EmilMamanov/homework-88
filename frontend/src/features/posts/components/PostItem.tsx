@@ -17,7 +17,7 @@ interface Props {
     user: null;
 }
 
-const UserItem: React.FC<Props> = ({title, id, image, user}) => {
+const PostItem: React.FC<Props> = ({title, id, image, user}) => {
     let cardImage = imageNotAvailable;
 
     if (image) {
@@ -44,4 +44,4 @@ const UserItem: React.FC<Props> = ({title, id, image, user}) => {
     );
 };
 
-export default UserItem;
+export default PostItem;
