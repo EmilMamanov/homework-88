@@ -41,7 +41,7 @@ export const postsSlice = createSlice({
         });
         builder.addCase(fetchPostById.fulfilled, (state, { payload: post }) => {
             state.fetchLoading = false;
-            state.posts = [post]; // Обновляем массив постов, чтобы содержать только один пост
+            state.posts = [post];
         });
     },
 });
