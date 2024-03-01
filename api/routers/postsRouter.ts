@@ -15,10 +15,27 @@ postsRouter.get('/', async (_req, res, next) => {
     }
 });
 
+postsRouter.get('/:postId', async (req, res, next) => {
+    try {
+        const { postId } = req.params;
+
+        const post = await Post.findById(postId).populate('user', 'username');
+
+        if (!post) {
+            return res.status(404).send({ error: 'Post not found' });
+        }
+
+        return res.send(post);
+    } catch (e) {
+        next(e);
+    }
+});
+
 postsRouter.post('/', auth, uploadItemImage.single('image'), async (req: RequestWithUser, res, next) => {
     try {
         const postData = {
             user: req.user?._id,
+            name: req.user?.username,
             title: req.body.title,
             description: req.body.description,
             image: req.file ? req.file.filename : null,
