@@ -35,3 +35,29 @@ export interface RegisterResponse {
 export interface GlobalError {
     error: string;
 }
+
+export interface Post {
+    _id: string;
+    title: string;
+    description: string;
+    image: string | null;
+    user: string;
+}
+
+export interface PostMutation {
+    title: string;
+    description: string;
+    image?: File | null;
+}
+
+export interface Comment {
+    _id: string;
+    user: {
+        _id: string;
+        username: string;
+    };
+    post: string;
+    text: string;
+    createdAt: string;
+    updatedAt: string;
+}
